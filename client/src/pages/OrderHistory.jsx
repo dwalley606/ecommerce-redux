@@ -1,15 +1,20 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
+import { setUser } from '../slices/userSlice'; // Import the setUser action from the user slice
 
 function OrderHistory() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.data);
   const { data } = useQuery(QUERY_USER);
-  let user;
 
-  if (data) {
-    user = data.user;
-  }
+  useEffect(() => {
+    if (data) {
+      dispatch(setUser(data.user));
+    }
+  }, [data, dispatch]);
 
   return (
     <>

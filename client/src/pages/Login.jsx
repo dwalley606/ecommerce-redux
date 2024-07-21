@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { LOGIN } from '../utils/mutations';
 import Auth from '../utils/auth';
+import { loginSuccess, loginFailure } from '../slices/authSlice'; // Import actions from the slice
 
 function Login(props) {
   const [formState, setFormState] = useState({ email: '', password: '' });
-  const [login, { error }] = useMutation(LOGIN);
+  const [login] = useMutation(LOGIN);
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.auth.error);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -16,8 +20,10 @@ function Login(props) {
       });
       const token = mutationResponse.data.login.token;
       Auth.login(token);
+      dispatch(loginSuccess(token));
     } catch (e) {
       console.log(e);
+      dispatch(loginFailure(e.message));
     }
   };
 
