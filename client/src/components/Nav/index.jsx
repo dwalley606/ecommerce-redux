@@ -1,20 +1,20 @@
-import Auth from "../../utils/auth";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../../slices/authSlice"; // Import the logout action
 
 function Nav() {
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const dispatch = useDispatch();
 
   function showNavigation() {
-    if (Auth.loggedIn()) {
+    if (loggedIn) {
       return (
         <ul className="flex-row">
           <li className="mx-1">
-            <Link to="/orderHistory">
-              Order History
-            </Link>
+            <Link to="/orderHistory">Order History</Link>
           </li>
           <li className="mx-1">
-            {/* this is not using the Link component to logout or user and then refresh the application to the start */}
-            <a href="/" onClick={() => Auth.logout()}>
+            <a href="/" onClick={() => dispatch(logout())}>
               Logout
             </a>
           </li>
@@ -24,14 +24,10 @@ function Nav() {
       return (
         <ul className="flex-row">
           <li className="mx-1">
-            <Link to="/signup">
-              Signup
-            </Link>
+            <Link to="/signup">Signup</Link>
           </li>
           <li className="mx-1">
-            <Link to="/login">
-              Login
-            </Link>
+            <Link to="/login">Login</Link>
           </li>
         </ul>
       );
@@ -42,14 +38,14 @@ function Nav() {
     <header className="flex-row px-1">
       <h1>
         <Link to="/">
-          <span role="img" aria-label="shopping bag">🛍️</span>
+          <span role="img" aria-label="shopping bag">
+            🛍️
+          </span>
           -Shop-Shop
         </Link>
       </h1>
 
-      <nav>
-        {showNavigation()}
-      </nav>
+      <nav>{showNavigation()}</nav>
     </header>
   );
 }
