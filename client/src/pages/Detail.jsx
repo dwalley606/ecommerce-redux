@@ -4,7 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useQuery } from "@apollo/client";
 
 import Cart from "../components/Cart";
-import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY, ADD_TO_CART, UPDATE_PRODUCTS } from "../actions/actions";
+import {
+  REMOVE_FROM_CART,
+  UPDATE_CART_QUANTITY,
+  ADD_TO_CART,
+} from "../actions/cartActions";
+import { UPDATE_PRODUCTS } from "../actions/productActions";
 import { QUERY_PRODUCTS } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
 import spinner from "../assets/spinner.gif";
